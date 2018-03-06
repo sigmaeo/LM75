@@ -108,6 +108,12 @@ boolean LM75::shutdown () {
   return conf() & 0x01;
 }
 
-void LM75::shutdown (boolean val) {
-  conf(val << LM75_CONF_SHUTDOWN);
+void LM75::shutdown (boolean val)	//sigmaeo: changed, because the old one changed the configuration (i.e. 12bit-RES).
+{
+  byte old;
+  old = conf();
+  if( val )
+  	conf(old | (1<<LM75_CONF_SHUTDOWN));
+  else
+  	conf(old & ~(1<<LM75_CONF_SHUTDOWN));
 }
